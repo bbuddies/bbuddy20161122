@@ -9,6 +9,9 @@ addons:
 env:
   global:
   - secure: bOkK6I/H+0qTMUM6IXd46XVK4mEfzcD1Nr9Si3sgeQkgZKsc/xGCqcvxtqLhvF2QbyTSB5Bn8xwnq6Rs7mDbrgGOG9Y3+9ttAD4ELdthc+9qVEsTU/ce70yHkgGKA8u+f/HeF03VMg45QoldudXm5n4MfsyzkgRKEiXXJeS+sOJXvQsxza3vy1XSbC9OpTtCVjwEHFpZxK4y2h62lKweZ4cBXMueQP/F31MvV0W2/b0ZRAV8/wIVVskK+0DOVF5m5I6URR/jtiBkhdy7zM/GPkCF25mTDOdaQo3uYCCzA1jXH2X7WKXUYrC9T2RmxO5TjNi+6CGvOBVkObMEZ2c/ip6PXcUcHiciLV/buZuQ1Ej2S6FhGYFVT0oBR/NwAII3E56nykY0t958zwPER/fBQ/qhWj2uB+cJRzUp6b8xkUlCiDhJIZsZspHOcOQt1D4DTQEOyrexbBUxo+zcvAUADJMXXmIVJNx8NgemlbWnL1AyRC8CE6W5XDTyLAe9Wz5A5VlKlKHRG6dUaQSDjf8HeCZu2Pojob5ehMzNyktThX//xei3t771EugWd0nJaCHlL7anuraehYLJ3MJj9aqGcYU/VBo71BBYChNHezhocevhNuy5/ooWXSNsDTGayh3nMi2Yl7dbvJJhDA9Cowkta20pXiJhHkBXAFkYhk33SaQ=
+branches:
+  only:
+    bbuddy20161122
 
 script:
 - ansible-playbook bbuddy.yml --inventory-file=host_travis_ci.txt --syntax-check
