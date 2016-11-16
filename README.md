@@ -13,8 +13,8 @@ Please install the following tools for this project. The latest version should b
 * mysql
 * intellij idea community edition with the following plug-in installed
     * lombok plug-in
-    * Cucumber for java(為了執行cucumber feature)
-    * Gherkin(為了editor支援)
+    * Cucumber for java
+    * Gherkin
 * Firefox 46.0 (don't use higher version)
 
 # Setup Command Line Development Environment
