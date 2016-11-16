@@ -29,7 +29,8 @@ Use git to clone this project into a folder. Then in this folder, run the comman
 
 * Start Web Application. Run com.odde.bbuddy.Application as a Spring Boot application by using "dev" as the active profile
 * Run Unit Tests. Run those unit tests as normal. The only limitation is that you can't run those "Nested" tests together with other non "Nested" tests
-* Run Acceptance Tests (cucumber). In feature file, you can select the feature or one scenario and then run it. In the configuration, you need to set the active profile as "test" by adding `SPRING_PROFILES_ACTIVE=test` to the environment variables. 安裝Cucumber for java pluging之後, 在Run/Debug Configurations裡面才會有Cucumber java可以設置, 然後才會執行Feature檔. 
+* Run Acceptance Tests (cucumber). In feature file, you can select the feature or one scenario and then run it. In the configuration, you need to set the active profile as "test" by adding `SPRING_PROFILES_ACTIVE=test` to the environment variables. 
+  * 安裝Cucumber for java pluging之後, 在Run/Debug Configurations裡面才會有Cucumber java可以設置, 然後才會執行Feature檔. 
 * [Spring Boot Developer Tools](http://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-devtools.html) is used so that you can hot load any modified code, template file and resource file without restart the application. Please follow the steps below to enable this hot load feature.
     * Start the application in Intellij as described in the first item. Don't start it with gradle in command line.
     * Edit any code or file, and make the project. Then, the change will be reloaded automatically.
