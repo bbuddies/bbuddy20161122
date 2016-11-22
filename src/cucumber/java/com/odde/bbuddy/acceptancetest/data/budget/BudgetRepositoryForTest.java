@@ -14,4 +14,6 @@ public interface BudgetRepositoryForTest extends Repository<Budget, Long> {
     List<Budget> findAll();
 
     void save(Budget budget);
+
+    void deleteAll();
 }

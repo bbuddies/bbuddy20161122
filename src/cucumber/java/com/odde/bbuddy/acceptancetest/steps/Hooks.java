@@ -3,9 +3,11 @@ package com.odde.bbuddy.acceptancetest.steps;
 import com.odde.bbuddy.Application;
 import com.odde.bbuddy.acceptancetest.data.ApplicationConfigurations;
 import com.odde.bbuddy.acceptancetest.data.account.AccountRepoForTest;
+import com.odde.bbuddy.acceptancetest.data.budget.BudgetRepositoryForTest;
 import com.odde.bbuddy.acceptancetest.data.transaction.TransactionRepoForTest;
 import com.odde.bbuddy.acceptancetest.driver.UiDriver;
 import com.odde.bbuddy.acceptancetest.pages.SignInPage;
+import com.odde.bbuddy.budget.repo.BudgetRepo;
 import com.odde.bbuddy.user.domain.User;
 import com.odde.bbuddy.user.repo.UserRepo;
 import cucumber.api.java.After;
@@ -37,6 +39,9 @@ public class Hooks {
     TransactionRepoForTest transactionRepo;
 
     @Autowired
+    BudgetRepositoryForTest budgetRepo;
+
+    @Autowired
     AccountRepoForTest accountRepo;
 
     @Autowired
@@ -62,6 +67,12 @@ public class Hooks {
     @After("@transaction")
     public void cleanUpTransaction() {
         transactionRepo.deleteAll();
+    }
+
+    @Before("@budget")
+    @After("@budget")
+    public void cleanUpBudget() {
+        budgetRepo.deleteAll();
     }
 
     @Before("@account")
