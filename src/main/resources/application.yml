@@ -1,5 +1,6 @@
 spring:
     datasource:
+        driverClassName: com.mysql.cj.jdbc.Driver
         password: dbs3cr3t
         testWhileIdle: true
         username: nerd
@@ -7,7 +8,8 @@ spring:
     jpa:
         hibernate:
             ddl-auto: update
-            naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+            naming:
+              strategy: org.hibernate.cfg.ImprovedNamingStrategy
         properties:
             hibernate:
                 dialect: org.hibernate.dialect.MySQL5Dialect
