@@ -17,5 +17,7 @@ spring:
     messages:
         basename: BindingErrorMessages
 
+selenium:
+    browser: CHROME
 application:
     perPageLimit: 10

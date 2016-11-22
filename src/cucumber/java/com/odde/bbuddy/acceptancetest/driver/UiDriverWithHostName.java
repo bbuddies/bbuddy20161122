@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+
 @Component
 @Scope("cucumber-glue")
 public class UiDriverWithHostName implements UiDriver {
@@ -13,8 +15,15 @@ public class UiDriverWithHostName implements UiDriver {
     @Value("${server.port}")
     private String port = "8080";
 
+    @Value("${selenium.browser:FIREFOX}")
+    private String browser;
     private final String hostName = "http://localhost";
-    private final UiDriver originalDriver = new SeleniumWebDriver();
+    private UiDriver originalDriver;
+
+    @PostConstruct
+    public void init() {
+        originalDriver = new SeleniumWebDriver(Browser.valueOf(browser));
+    }
 
     @Override
     public void close() {
@@ -41,7 +50,8 @@ public class UiDriverWithHostName implements UiDriver {
     }
 
     @Override
-    public void navigateToWithParams(String url, Params params) {
+    public void navigateToWithParams(String url,
+                                     Params params) {
         originalDriver.navigateToWithParams(urlWithHostAndPort(url), params);
     }
 
