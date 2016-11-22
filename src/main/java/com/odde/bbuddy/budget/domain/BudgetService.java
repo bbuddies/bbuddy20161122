@@ -17,6 +17,14 @@ public class BudgetService {
     }
 
     public void add(Budget budget) {
-        repository.save(budget);
+        Budget savedBudget = repository.findByMonth(budget.getMonth());
+        if(savedBudget != null){
+            savedBudget.setAmount(budget.getAmount());
+
+            repository.save(savedBudget);
+        }
+        else {
+            repository.save(budget);
+        }
     }
 }

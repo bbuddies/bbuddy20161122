@@ -12,4 +12,6 @@ import java.util.List;
 @Transactional
 public interface BudgetRepositoryForTest extends Repository<Budget, Long> {
     List<Budget> findAll();
+
+    void save(Budget budget);
 }

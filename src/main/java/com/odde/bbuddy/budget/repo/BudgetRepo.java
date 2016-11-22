@@ -10,4 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface BudgetRepo extends Repository<Budget, Long> {
     void save(Budget budget);
+
+    Budget findByMonth(String month);
 }
