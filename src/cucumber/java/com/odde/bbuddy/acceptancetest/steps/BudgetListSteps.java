@@ -51,4 +51,10 @@ public class BudgetListSteps {
 
     }
 
+    @Then("^Show \"([^\"]*)\"$")
+    public void show(String warningStr) throws Throwable {
+        System.out.println(warningStr);
+        Assert.assertTrue(commonPage.getAllText().contains("No budget"));
+    }
+
 }
