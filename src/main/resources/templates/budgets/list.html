@@ -7,13 +7,13 @@
             <th>amount</th>
         </tr>
         </thead>
+        <tbody id="budgets-table" class="table-hover">
         {{#budgets}}
-        <tbody name="budgets" class="table-hover">
         <tr>
             <td name="month" class="text-left">{{month}}</td>
             <td name="amount" class="text-left">{{amount}}</td>
         </tr>
-        </tbody>
         {{/budgets}}
+        </tbody>
     </table>
 </div>
