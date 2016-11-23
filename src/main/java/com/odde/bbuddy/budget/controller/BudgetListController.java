@@ -9,6 +9,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
+import static com.odde.bbuddy.common.controller.Urls.BUDGETS;
+import static com.odde.bbuddy.common.controller.Urls.BUDGETS_LIST;
+
 /**
  * @author howie
  * @since 2016/11/23
@@ -19,12 +22,12 @@ public class BudgetListController {
     @Autowired
     private BudgetService budgetService;
 
-    @GetMapping("/budgets")
+    @GetMapping(BUDGETS)
     public ModelAndView list() {
 
         List<Budget> budgets = budgetService.list();
 
-        ModelAndView model = new ModelAndView("/budgets/list");
+        ModelAndView model = new ModelAndView(BUDGETS_LIST);
         model.addObject("budgets", budgets);
 
         return model;
