@@ -5,5 +5,6 @@ Feature: Query budget
     Given has budgets
       | amount  | month   |
       | 30000 | 2016-04 |
-    When query from 2016-04-05 o 2016-04-14
+    When query from "2016-04-05" to "2016-04-14"
     Then show budget 10000.00
+

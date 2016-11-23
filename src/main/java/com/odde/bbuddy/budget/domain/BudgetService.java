@@ -4,11 +4,14 @@ import com.odde.bbuddy.budget.repo.BudgetRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Created by zbcjackson on 22/11/2016.
+ * @author zbcjackson
+ * @since 22/11/2016
  */
 @Service
 public class BudgetService {
@@ -19,8 +22,9 @@ public class BudgetService {
         this.repository = repository;
     }
 
-    public void add(Budget budget, Runnable failure) {
-        if (!validateBudget(budget.getMonth())){
+    public void add(Budget budget,
+                    Runnable failure) {
+        if (!validateBudget(budget.getMonth())) {
             failure.run();
             return;
         }
@@ -46,7 +50,7 @@ public class BudgetService {
 
     public boolean validateBudget(String targetMonth) {
         Budget previousBudget = repository.findByMonthLessThan(targetMonth);
-        if(previousBudget == null)
+        if (previousBudget == null)
             return true;
         else {
             String existedMonth = previousBudget.getMonth();
@@ -56,5 +60,41 @@ public class BudgetService {
             String expectMonth = String.format("%s-%02d", dateArr[0], month);
             return expectMonth.equals(targetMonth);
         }
+    }
+
+    public double totalBudget(String from,
+                              String to) {
+
+        List<Budget> budgets = repository.findBetween(from.substring(0, 7), to.substring(0, 7));
+        return budgets.stream()
+                      .mapToDouble(budget -> {
+
+                          LocalDate bugetMonth = LocalDate.parse(budget.getMonth() + "-01");
+                          LocalDate toDate = LocalDate.parse(to);
+                          LocalDate fromDate = LocalDate.parse(from);
+                          int days = fromDate.getMonth()
+                                             .length(true);
+
+                          int duration = 0;
+                          if (bugetMonth.isBefore(toDate)) {
+
+                              duration = toDate.getDayOfMonth() - fromDate.getDayOfMonth() + 1;
+
+                          }
+                          else {
+
+                              //TODO  more than two month
+
+                          }
+
+                          System.out.println(days + " " + duration);
+                          return new BigDecimal(budget.getAmount()).divide(new BigDecimal(days),
+                                                                           BigDecimal.ROUND_HALF_UP)
+                                                                   .multiply(new BigDecimal(duration))
+                                                                   .doubleValue();
+
+                      })
+                      .sum();
+
     }
 }

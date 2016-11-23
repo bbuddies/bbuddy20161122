@@ -19,8 +19,12 @@ import static com.odde.bbuddy.common.controller.Urls.BUDGETS_LIST;
 @Controller
 public class BudgetListController {
 
+    private final BudgetService budgetService;
+
     @Autowired
-    private BudgetService budgetService;
+    public BudgetListController(BudgetService budgetService) {
+        this.budgetService = budgetService;
+    }
 
     @GetMapping(BUDGETS)
     public ModelAndView list() {
