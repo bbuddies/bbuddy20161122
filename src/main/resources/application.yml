@@ -18,6 +18,6 @@ spring:
         basename: BindingErrorMessages
 
 selenium:
-    browser: CHROME
+    browser: FIREFOX
 application:
     perPageLimit: 10

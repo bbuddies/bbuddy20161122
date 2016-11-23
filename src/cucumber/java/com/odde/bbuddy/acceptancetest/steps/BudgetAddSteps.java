@@ -3,15 +3,13 @@ package com.odde.bbuddy.acceptancetest.steps;
 import com.odde.bbuddy.acceptancetest.data.budget.BudgetRepositoryForTest;
 import com.odde.bbuddy.acceptancetest.driver.UiDriver;
 import com.odde.bbuddy.budget.domain.Budget;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Created by zbcjackson on 22/11/2016.
@@ -32,11 +30,11 @@ public class BudgetAddSteps {
     }
 
     @Then("^exists budget (\\d+) for \"([^\"]*)\"$")
-    public void exists_budget_for(int arg1, String arg2) throws Throwable {
-        List<Budget> budgets = budgetRepository.findAll();
-        assertEquals(1, budgets.size());
-        assertEquals(arg1, budgets.get(0).getAmount());
-        assertEquals(arg2, budgets.get(0).getMonth());
+    public void exists_budget_for(int arg1, String month) throws Throwable {
+        Budget budget = budgetRepository.findByMonth(month);
+        assertNotNull(budget);
+        assertEquals(arg1, budget.getAmount());
+        assertEquals(month, budget.getMonth());
     }
 
     @Given("^budget (\\d+) for \"([^\"]*)\" already exist$")
