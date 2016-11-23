@@ -19,4 +19,6 @@ public interface BudgetRepo extends Repository<Budget, Long> {
     Budget findByMonth(String month);
 
     List<Budget> findAll();
+
+    Budget findByMonthLessThan(String targetMonth);
 }

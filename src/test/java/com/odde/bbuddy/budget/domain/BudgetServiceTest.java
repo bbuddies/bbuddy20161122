@@ -13,6 +13,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.*;
 
 /**
@@ -77,5 +78,24 @@ public class BudgetServiceTest {
         Assert.assertEquals(oldBudget1, savedBudgets.get(0));
         Assert.assertEquals(oldBudget2, savedBudgets.get(1));
         Assert.assertEquals(oldBudget3, savedBudgets.get(2));
+
+    }
+
+    public void testValidateBudget() throws Exception {
+        BudgetRepo repository = mock(BudgetRepo.class);
+        BudgetService budgetService = new BudgetService(repository);
+
+        Budget budget = new Budget();
+        budget.setAmount(500);
+        budget.setMonth("2017-01");
+
+        String targetMonth = "2017-03";
+        when(repository.findByMonthLessThan(targetMonth)).thenReturn(budget);
+
+        boolean isValid = budgetService.validateBudget(targetMonth);
+
+        assertFalse(isValid);
+
+
     }
 }

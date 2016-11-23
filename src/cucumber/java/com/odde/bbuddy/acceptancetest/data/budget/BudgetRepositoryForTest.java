@@ -16,4 +16,6 @@ public interface BudgetRepositoryForTest extends Repository<Budget, Long> {
     void save(Budget budget);
 
     void deleteAll();
+
+    Budget findByMonth(String month);
 }
