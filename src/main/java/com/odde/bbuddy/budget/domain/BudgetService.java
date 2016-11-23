@@ -30,7 +30,7 @@ public class BudgetService {
         }
 
         // 1. no records in table.
-        if (repository.count() ==0){
+        if (repository.count() == 0) {
             repository.save(budget);
             return;
         }
@@ -45,19 +45,19 @@ public class BudgetService {
         }
 
         // 2. query previous month budget and next month budget
-        String[] intentMonth = budget.getMonth().split("-");
-        String preMonth = String.format("%s-%02d", intentMonth[0] ,Integer.parseInt(intentMonth[1])-1 );
+        String[] intentMonth = budget.getMonth()
+                                     .split("-");
+        String preMonth = String.format("%s-%02d", intentMonth[0], Integer.parseInt(intentMonth[1]) - 1);
         Budget previousMonth = repository.findByMonth(preMonth);
 
-        String nextMonth = String.format("%s-%02d", intentMonth[0] ,Integer.parseInt(intentMonth[1])+1 );
+        String nextMonth = String.format("%s-%02d", intentMonth[0], Integer.parseInt(intentMonth[1]) + 1);
         Budget nextMonthBudget = repository.findByMonth(nextMonth);
 
-        boolean isvalid = (previousMonth!= null || nextMonthBudget != null);
+        boolean isvalid = (previousMonth != null || nextMonthBudget != null);
 
-        if(isvalid){
+        if (isvalid) {
             repository.save(budget);
         }
-
 
     }
 
@@ -95,20 +95,30 @@ public class BudgetService {
         return budgets.stream()
                       .mapToDouble(budget -> {
 
-                          LocalDate budgetMonth = LocalDate.parse(budget.getMonth() + "-01");
-
-                          int days = fromDate.getMonth()
-                                             .length(true);
+                          LocalDate budgetMonth = budget.thisMonth();
+                          int days = budgetMonth.getMonth()
+                                                .length(true);
 
                           int duration = 0;
-                          if (budgetMonth.isBefore(toDate)) {
+                          if (fromDate.getMonth()
+                                      .equals(toDate.getMonth())) {
 
                               duration = toDate.getDayOfMonth() - fromDate.getDayOfMonth() + 1;
                           }
-                          else {
+                          else if (budgetMonth.getMonth()
+                                              .equals(fromDate.getMonth())) {
 
                               duration = days - fromDate.getDayOfMonth() + 1;
 
+                          }
+                          else if (budgetMonth.getMonth()
+                                              .equals(toDate.getMonth())) {
+
+                              duration = toDate.getDayOfMonth();
+                          }
+
+                          else {
+                              duration = days;
                           }
 
                           return new BigDecimal(budget.getAmount()).divide(new BigDecimal(days),
