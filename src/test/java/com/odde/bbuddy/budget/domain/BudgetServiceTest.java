@@ -2,7 +2,6 @@ package com.odde.bbuddy.budget.domain;
 
 import com.google.common.collect.Lists;
 import com.odde.bbuddy.budget.repo.BudgetRepo;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -12,8 +11,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -77,10 +75,10 @@ public class BudgetServiceTest {
 
         List<Budget> savedBudgets = budgetService.list();
 
-        Assert.assertEquals(3, savedBudgets.size());
-        Assert.assertEquals(oldBudget1, savedBudgets.get(0));
-        Assert.assertEquals(oldBudget2, savedBudgets.get(1));
-        Assert.assertEquals(oldBudget3, savedBudgets.get(2));
+        assertEquals(3, savedBudgets.size());
+        assertEquals(oldBudget1, savedBudgets.get(0));
+        assertEquals(oldBudget2, savedBudgets.get(1));
+        assertEquals(oldBudget3, savedBudgets.get(2));
 
     }
     @Test
@@ -99,7 +97,20 @@ public class BudgetServiceTest {
 
         assertFalse(isValid);
 
+    }
 
+    @Test
+    public void test_totalBudget_within_Single_month() {
+
+        String from = "2017-04-05";
+        String to = "2017-04-14";
+
+        List<Budget> findBudgets = Lists.newArrayList(new Budget(1, 30000, "2017-04"));
+        when(repository.findBetween(from.substring(0, 7), to.substring(0, 7))).thenReturn(findBudgets);
+
+        double totalBudget = budgetService.totalBudget(from, to);
+
+        assertTrue(10000d == totalBudget);
     }
     @Test
     public void testAddPreviousMonthBudget(){
