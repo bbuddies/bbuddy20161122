@@ -87,29 +87,30 @@ public class BudgetService {
     public double totalBudget(String from,
                               String to) {
 
+        final LocalDate toDate = LocalDate.parse(to);
+        final LocalDate fromDate = LocalDate.parse(from);
+
         List<Budget> budgets = repository.findBetween(from.substring(0, 7), to.substring(0, 7));
+
         return budgets.stream()
                       .mapToDouble(budget -> {
 
-                          LocalDate bugetMonth = LocalDate.parse(budget.getMonth() + "-01");
-                          LocalDate toDate = LocalDate.parse(to);
-                          LocalDate fromDate = LocalDate.parse(from);
+                          LocalDate budgetMonth = LocalDate.parse(budget.getMonth() + "-01");
+
                           int days = fromDate.getMonth()
                                              .length(true);
 
                           int duration = 0;
-                          if (bugetMonth.isBefore(toDate)) {
+                          if (budgetMonth.isBefore(toDate)) {
 
                               duration = toDate.getDayOfMonth() - fromDate.getDayOfMonth() + 1;
-
                           }
                           else {
 
-                              //TODO  more than two month
+                              duration = days - fromDate.getDayOfMonth() + 1;
 
                           }
 
-                          System.out.println(days + " " + duration);
                           return new BigDecimal(budget.getAmount()).divide(new BigDecimal(days),
                                                                            BigDecimal.ROUND_HALF_UP)
                                                                    .multiply(new BigDecimal(duration))
