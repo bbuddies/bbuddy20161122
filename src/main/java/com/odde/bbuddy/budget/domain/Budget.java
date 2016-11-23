@@ -3,9 +3,13 @@ package com.odde.bbuddy.budget.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 /**
- * Created by zbcjackson on 22/11/2016.
+ *
+ * @author zbcjackson
+ * @since 22/11/2016
+ *
  */
 @Entity
 @Table(name = "budgets")
@@ -20,4 +24,10 @@ public class Budget {
     private long id;
     private int amount;
     private String month;
+
+    @Transient
+    public LocalDate thisMonth() {
+
+        return LocalDate.parse(month + "-01");
+    }
 }
