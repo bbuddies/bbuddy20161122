@@ -34,7 +34,7 @@ public class BudgetServiceTest {
         BudgetService budgetService = new BudgetService(repository);
         Budget budget = new Budget();
 
-        budgetService.add(budget);
+        budgetService.add(budget, null);
 
         verify(repository).save(budget);
     }
@@ -53,7 +53,7 @@ public class BudgetServiceTest {
         budget.setAmount(2000);
         budget.setMonth("2017-10");
 
-        budgetService.add(budget);
+        budgetService.add(budget, null);
 
         ArgumentCaptor<Budget> captor = ArgumentCaptor.forClass(Budget.class);
         verify(repository).save(captor.capture());

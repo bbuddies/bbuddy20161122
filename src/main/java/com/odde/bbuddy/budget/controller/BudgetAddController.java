@@ -29,14 +29,7 @@ public class BudgetAddController {
     @PostMapping("/budgets/add")
     public String save(@ModelAttribute Budget budget,
                        Model model) {
-
-        String inputMonth = budget.getMonth();
-        if (service.validateBudget(inputMonth)) {
-            service.add(budget);
-        }
-        else {
-            model.addAttribute("errorMsg", "error");
-        }
+        service.add(budget, () -> model.addAttribute("errorMsg", "error"));
 
         return "/budgets/add";
     }

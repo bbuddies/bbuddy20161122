@@ -19,7 +19,11 @@ public class BudgetService {
         this.repository = repository;
     }
 
-    public void add(Budget budget) {
+    public void add(Budget budget, Runnable failure) {
+        if (!validateBudget(budget.getMonth())){
+            failure.run();
+            return;
+        }
         Budget savedBudget = repository.findByMonth(budget.getMonth());
         if (savedBudget != null) {
             savedBudget.setAmount(budget.getAmount());

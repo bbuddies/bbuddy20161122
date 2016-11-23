@@ -5,6 +5,8 @@ import com.odde.bbuddy.budget.domain.BudgetService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.ui.Model;
 
 import static org.junit.Assert.assertEquals;
@@ -31,20 +33,18 @@ public class BudgetAddControllerTest {
 
     @Test
     public void save_budget_by_service() throws Exception {
-        budget.setMonth("2016-07");
-        when(service.validateBudget(budget.getMonth())).thenReturn(true);
-
         controller.save(budget, model);
-        verify(service).add(budget);
+        verify(service).add(eq(budget), any());
     }
 
     @Test
     public void save_budget_invalid_budget() throws Exception {
-        String inputMonth = "2017-03";
-        budget.setMonth(inputMonth);
-        when(service.validateBudget(budget.getMonth())).thenReturn(false);
-
+        doAnswer(invocation -> {
+            Runnable failure = invocation.getArgumentAt(1, Runnable.class);
+            failure.run();
+            return null;
+        }).when(service).add(eq(budget), any());
         controller.save(budget, model);
-        verify(service, Mockito.never()).add(any());
+        verify(model).addAttribute("errorMsg", "error");
     }
 }
