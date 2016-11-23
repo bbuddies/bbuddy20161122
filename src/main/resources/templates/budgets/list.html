@@ -1,0 +1,19 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">Budget List</div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>month</th>
+            <th>amount</th>
+        </tr>
+        </thead>
+        {{#budgets}}
+        <tbody name="budgets" class="table-hover">
+        <tr>
+            <td name="month" class="text-left">{{month}}</td>
+            <td name="amount" class="text-left">{{amount}}</td>
+        </tr>
+        </tbody>
+        {{/budgets}}
+    </table>
+</div>

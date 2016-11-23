@@ -23,4 +23,7 @@ public class SeleniumWebElement implements UiElement {
     public String getText() {
         return element.getText();
     }
+
+
+
 }
