@@ -14,6 +14,11 @@
             <td name="amount" class="text-left">{{amount}}</td>
         </tr>
         {{/budgets}}
+        {{^budgets}}
+        <tr>
+            <td colspan="2" class="text-center">No budget</td>
+        </tr>
+        {{/budgets}}
         </tbody>
     </table>
 </div>
