@@ -24,15 +24,37 @@ public class BudgetService {
             failure.run();
             return;
         }
+
+        // 1. no records in table.
+        if (repository.count() ==0){
+            repository.save(budget);
+            return;
+        }
+
+        // 2. update specific record
         Budget savedBudget = repository.findByMonth(budget.getMonth());
         if (savedBudget != null) {
             savedBudget.setAmount(budget.getAmount());
 
             repository.save(savedBudget);
+            return;
         }
-        else {
+
+        // 2. query previous month budget and next month budget
+        String[] intentMonth = budget.getMonth().split("-");
+        String preMonth = String.format("%s-%02d", intentMonth[0] ,Integer.parseInt(intentMonth[1])-1 );
+        Budget previousMonth = repository.findByMonth(preMonth);
+
+        String nextMonth = String.format("%s-%02d", intentMonth[0] ,Integer.parseInt(intentMonth[1])+1 );
+        Budget nextMonthBudget = repository.findByMonth(nextMonth);
+
+        boolean isvalid = (previousMonth!= null || nextMonthBudget != null);
+
+        if(isvalid){
             repository.save(budget);
         }
+
+
     }
 
     public List<Budget> list() {

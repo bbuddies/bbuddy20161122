@@ -41,7 +41,10 @@ public class BudgetServiceTest {
 
     @Test
     public void add_when_a_record_existed() throws Exception {
-        BudgetRepo repository = mock(BudgetRepo.class);
+
+        when(repository.count()).thenReturn(1);
+
+//        BudgetRepo repository = mock(BudgetRepo.class);
         Budget oldBudget = new Budget();
         oldBudget.setId(1);
         oldBudget.setAmount(1000);
@@ -80,7 +83,7 @@ public class BudgetServiceTest {
         Assert.assertEquals(oldBudget3, savedBudgets.get(2));
 
     }
-
+    @Test
     public void testValidateBudget() throws Exception {
         BudgetRepo repository = mock(BudgetRepo.class);
         BudgetService budgetService = new BudgetService(repository);
@@ -95,6 +98,28 @@ public class BudgetServiceTest {
         boolean isValid = budgetService.validateBudget(targetMonth);
 
         assertFalse(isValid);
+
+
+    }
+    @Test
+    public void testAddPreviousMonthBudget(){
+        Budget existedBudget = Budget.builder().amount(4000).month("2017-02").build();
+        String intentBuddgetMonth = "2017-01";
+
+        Budget intent = Budget.builder().amount(1000).month("2017-01").build();
+
+        when(repository.findOneByMonthGreaterThanOrderByMonth(intentBuddgetMonth)).thenReturn(existedBudget);
+        budgetService.add(intent, () -> {
+            //
+        });
+
+        verify(repository).save(eq(intent));
+
+
+
+
+
+
 
 
     }

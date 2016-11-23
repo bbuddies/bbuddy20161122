@@ -21,4 +21,10 @@ public interface BudgetRepo extends Repository<Budget, Long> {
     List<Budget> findAll();
 
     Budget findByMonthLessThan(String targetMonth);
+
+    Budget findOneByMonthLessThanOrderByMonthDesc(String targetMonth);
+
+    Budget findOneByMonthGreaterThanOrderByMonth(String intentBuddgetMonth);
+
+    int count();
 }
