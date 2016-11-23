@@ -41,12 +41,11 @@ public class BudgetListSteps {
     @Then("^list budgets$")
     public void list_budgets(List<Budget> budgets) throws Throwable {
 
-        budgets.forEach(budget -> {
-            Assert.assertTrue(commonPage.getAllText()
-                                        .contains(budget.getMonth()));
+        String allText = commonPage.getAllText();
 
-            Assert.assertTrue(commonPage.getAllText()
-                                        .contains(String.valueOf(budget.getAmount())));
+        budgets.forEach(budget -> {
+            Assert.assertTrue(allText.contains(budget.getMonth()));
+            Assert.assertTrue(allText.contains(String.valueOf(budget.getAmount())));
 
         });
 
