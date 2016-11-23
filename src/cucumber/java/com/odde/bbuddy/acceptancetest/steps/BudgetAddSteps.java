@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 /**
  * Created by zbcjackson on 22/11/2016.
@@ -45,6 +46,19 @@ public class BudgetAddSteps {
 
         budgetRepository.save(budgetOld);
 
+    }
+
+    @Then("^not exists budget (\\d+) for \"([^\"]*)\"$")
+    public void not_exists_budget_for(int amount, String month) throws Throwable {
+
+        Budget budget = budgetRepository.findByMonth(month);
+        assertNull(budget);
+    }
+
+    @Then("^display error msg \"([^\"]*)\"$")
+    public void display_error_msg(String errorMsg) throws Throwable {
+        String actualMsg = driver.findElementByName("errMsg").getText();
+        assertEquals(errorMsg, actualMsg);
     }
 
 }
