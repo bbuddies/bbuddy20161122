@@ -35,17 +35,20 @@ public class BudgetListSteps {
     @When("^search$")
     public void search() throws Throwable {
         driver.navigateTo("/budgets");
+
     }
 
     @Then("^list budgets$")
     public void list_budgets(List<Budget> budgets) throws Throwable {
-        System.out.println(commonPage.getAllText());
-        Assert.assertTrue(commonPage.getAllText()
-                                    .contains("2016-07"));
-        Assert.assertTrue(commonPage.getAllText()
-                                    .contains("2016-08"));
-        Assert.assertTrue(commonPage.getAllText()
-                                    .contains("2016-09"));
+
+        budgets.forEach(budget -> {
+            Assert.assertTrue(commonPage.getAllText()
+                                        .contains(budget.getMonth()));
+
+            Assert.assertTrue(commonPage.getAllText()
+                                        .contains(String.valueOf(budget.getAmount())));
+
+        });
 
     }
 
