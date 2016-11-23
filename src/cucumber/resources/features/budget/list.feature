@@ -1,4 +1,4 @@
-@user
+@user @budget
 Feature: List budget
 
   Scenario: Already have budget in database
