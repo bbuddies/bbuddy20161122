@@ -5,9 +5,8 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertFalse;
+import static org.mockito.Mockito.*;
 
 /**
  * Created by zbcjackson on 22/11/2016.
@@ -46,5 +45,24 @@ public class BudgetServiceTest {
         assertEquals(1, savedBudget.getId());
         assertEquals(2000, savedBudget.getAmount());
         assertEquals("2017-10", savedBudget.getMonth());
+    }
+
+    @Test
+    public void testValidateBudget() throws Exception {
+        BudgetRepo repository = mock(BudgetRepo.class);
+        BudgetService budgetService = new BudgetService(repository);
+
+        Budget budget = new Budget();
+        budget.setAmount(500);
+        budget.setMonth("2017-01");
+
+        String targetMonth = "2017-03";
+        when(repository.findByMonthLessThan(targetMonth)).thenReturn(budget);
+
+        boolean isValid = budgetService.validateBudget(targetMonth);
+
+        assertFalse(isValid);
+
+
     }
 }

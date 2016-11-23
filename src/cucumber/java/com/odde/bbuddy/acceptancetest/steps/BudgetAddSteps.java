@@ -41,8 +41,8 @@ public class BudgetAddSteps {
     @Given("^budget (\\d+) for \"([^\"]*)\" already exist$")
     public void budget_for_already_exist(int amount, String month) throws Throwable {
         Budget budgetOld = new Budget();
-        budgetOld.setAmount(1000);
-        budgetOld.setMonth("2017-10");
+        budgetOld.setAmount(amount);
+        budgetOld.setMonth(month);
 
         budgetRepository.save(budgetOld);
 

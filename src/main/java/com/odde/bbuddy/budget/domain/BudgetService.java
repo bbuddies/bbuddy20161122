@@ -27,4 +27,18 @@ public class BudgetService {
             repository.save(budget);
         }
     }
+
+    public boolean validateBudget(String targetMonth) {
+        Budget previousBudget = repository.findByMonthLessThan(targetMonth);
+        if(previousBudget == null)
+            return true;
+        else {
+            String existedMonth = previousBudget.getMonth();
+            String[] dateArr = existedMonth.split("-");
+            int month = Integer.valueOf(dateArr[1]) + 1;
+
+            String expectMonth = String.format("%s-%02d", dateArr[0], month);
+            return expectMonth.equals(targetMonth);
+        }
+    }
 }
