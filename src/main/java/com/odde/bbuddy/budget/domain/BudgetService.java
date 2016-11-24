@@ -4,8 +4,6 @@ import com.odde.bbuddy.budget.repo.BudgetRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -71,54 +69,12 @@ public class BudgetService {
         return repository.count() == 0 || hasPreviousOrCurrentOrNextBudget(budget);
     }
 
-    public double totalBudget(String from,
-                              String to) {
-
-        final LocalDate toDate = LocalDate.parse(to);
-        final LocalDate fromDate = LocalDate.parse(from);
-
-        List<Budget> budgets = repository.findBetween(from.substring(0, 7), to.substring(0, 7));
+    public double totalBudget(Period period) {
+        List<Budget> budgets = repository.findBetween(period.getFromMonthString(), period.getToMonthString());
 
         return budgets.stream()
-                      .mapToDouble(budget -> monthlyBudget(budget, fromDate, toDate))
+                      .mapToDouble(budget -> budget.getOverlappingAmount(period))
                       .sum();
-
     }
 
-    private double monthlyBudget(Budget budget,
-                                 LocalDate fromDate,
-                                 LocalDate toDate) {
-
-        LocalDate budgetMonth = budget.thisMonth();
-
-        int days = budgetMonth.getMonth()
-                              .length(true);
-
-        int duration;
-        if (fromDate.getMonth()
-                    .equals(toDate.getMonth())) {
-
-            duration = toDate.getDayOfMonth() - fromDate.getDayOfMonth() + 1;
-        }
-        else if (budgetMonth.getMonth()
-                            .equals(fromDate.getMonth())) {
-
-            duration = days - fromDate.getDayOfMonth() + 1;
-
-        }
-        else if (budgetMonth.getMonth()
-                            .equals(toDate.getMonth())) {
-
-            duration = toDate.getDayOfMonth();
-        }
-
-        else {
-            duration = days;
-        }
-
-        return new BigDecimal(budget.getAmount()).divide(new BigDecimal(days), BigDecimal.ROUND_HALF_UP)
-                                                 .multiply(new BigDecimal(duration))
-                                                 .doubleValue();
-
-    }
 }

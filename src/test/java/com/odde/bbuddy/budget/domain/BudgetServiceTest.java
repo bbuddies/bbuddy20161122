@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -137,7 +138,7 @@ public class BudgetServiceTest {
         List<Budget> findBudgets = Lists.newArrayList(new Budget(1, 30000, "2017-04"));
         when(repository.findBetween(from.substring(0, 7), to.substring(0, 7))).thenReturn(findBudgets);
 
-        double totalBudget = budgetService.totalBudget(from, to);
+        double totalBudget = budgetService.totalBudget(new Period(LocalDate.parse(from), LocalDate.parse(to)));
 
         assertTrue(10000d == totalBudget);
     }
@@ -152,9 +153,34 @@ public class BudgetServiceTest {
 
         when(repository.findBetween(from.substring(0, 7), to.substring(0, 7))).thenReturn(findBudgets);
 
-        double totalBudget = budgetService.totalBudget(from, to);
+        double totalBudget = budgetService.totalBudget(new Period(LocalDate.parse(from), LocalDate.parse(to)));
 
         assertTrue(20000d == totalBudget);
     }
 
+    @Test
+    public void test_totalBudget_without_budget() {
+        String from = "2017-04-21";
+        String to = "2017-05-10";
+        List<Budget> findBudgets = Lists.newArrayList();
+
+        when(repository.findBetween(from.substring(0, 7), to.substring(0, 7))).thenReturn(findBudgets);
+
+        double totalBudget = budgetService.totalBudget(new Period(LocalDate.parse(from), LocalDate.parse(to)));
+
+        assertTrue(0 == totalBudget);
+    }
+
+    @Test
+    public void test_totalBudget_half_overlaped_with_budget() {
+        String from = "2017-04-21";
+        String to = "2017-05-10";
+        List<Budget> findBudgets = Lists.newArrayList(new Budget(1, 30000, "2017-04"));
+
+        when(repository.findBetween(from.substring(0, 7), to.substring(0, 7))).thenReturn(findBudgets);
+
+        double totalBudget = budgetService.totalBudget(new Period(LocalDate.parse(from), LocalDate.parse(to)));
+
+        assertEquals(10000d, totalBudget, 0.01);
+    }
 }

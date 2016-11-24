@@ -1,12 +1,15 @@
 package com.odde.bbuddy.budget.controller;
 
 import com.odde.bbuddy.budget.domain.BudgetService;
+import com.odde.bbuddy.budget.domain.Period;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.time.LocalDate;
 
 import static com.odde.bbuddy.common.controller.Urls.BUDGETS_QUERY;
 
@@ -34,7 +37,7 @@ public class BudgetQueryController {
     public ModelAndView caculate(@RequestParam(value = "from") String from,
                                  @RequestParam(value = "to") String to) {
 
-        double totalBudget = budgetService.totalBudget(from, to);
+        double totalBudget = budgetService.totalBudget(new Period(LocalDate.parse(from), LocalDate.parse(to)));
 
         ModelAndView model = new ModelAndView(BUDGETS_QUERY);
         model.addObject("total-budget", totalBudget);
