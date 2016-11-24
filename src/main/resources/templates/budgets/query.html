@@ -1,11 +1,11 @@
 <form style="max-width: 330px;" method="post">
     <div class="form-group">
-        <label class="label">from </label>
-        <input type="text" name="from" class="form-control"/>
+        <label class="label">from</label>
+        <input type="text" name="from" class="form-control" value="{{from}}"/>
     </div>
     <div class="form-group">
         <label class="label">to</label>
-        <input type="text" name="to" class="form-control"/>
+        <input type="text" name="to" class="form-control" value="{{to}}"/>
     </div>
     <div class="form-group">
         <input type="submit" value="submit" class="btn btn-lg btn-primary btn-block"/>
@@ -13,6 +13,6 @@
 </form>
 
 <div class="result">
-    $ <span id="total-budget">10000.00</span>
+    $ <span id="total-budget">{{total-budget}}</span>
     <span id="error"></span>
 </div>

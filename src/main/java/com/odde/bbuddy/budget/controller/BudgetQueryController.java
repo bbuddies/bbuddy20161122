@@ -5,9 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import static com.odde.bbuddy.common.controller.Urls.*;
+import static com.odde.bbuddy.common.controller.Urls.BUDGETS_QUERY;
 
 /**
  * @author howie
@@ -29,15 +30,16 @@ public class BudgetQueryController {
         return BUDGETS_QUERY;
     }
 
-    @PostMapping(BUDGETS)
-    public ModelAndView caculate(String from,
-                                 String to) {
+    @PostMapping(BUDGETS_QUERY)
+    public ModelAndView caculate(@RequestParam(value = "from") String from,
+                                 @RequestParam(value = "to") String to) {
 
         double totalBudget = budgetService.totalBudget(from, to);
 
         ModelAndView model = new ModelAndView(BUDGETS_QUERY);
         model.addObject("total-budget", totalBudget);
-
+        model.addObject("from", from);
+        model.addObject("to", to);
         //TODO error msg
 
         return model;
